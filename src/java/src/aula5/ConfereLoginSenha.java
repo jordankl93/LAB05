@@ -38,25 +38,20 @@ public class ConfereLoginSenha extends HttpServlet {
             }
         }
         // Montando o formulrio
-        MontaForm(response);
-
-        //A resposta à requisição é uma página HTML escrita no dispositivo de saída
-        response.setContentType("text/html");
-        PrintWriter pw = response.getWriter();
-        //obtém todos os cookies armazenado no computador cliente
-        Cookie[] cookie = request.getCookies();
-        pw.println("lendo todos os cookies do browser");
-        for (Cookie obj : cookie) {
-            if (obj.getName().equals("url")) {
-                pw.println(obj.getName() + " : " + obj.getValue());
-                break;
-            }
-        }
+        MontaForm(request, response);        
     }
 
-    private void MontaForm(HttpServletResponse response) throws IOException {
+    private void MontaForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
         PrintWriter pw = response.getWriter();
+        String nome = "";
+        //obtém todos os cookies armazenado no computador cliente
+//        Cookie[] cookie = request.getCookies();
+//        for (Cookie obj : cookie) {
+//            if (obj.getName().equals("url")) {
+//                nome = obj.getValue();
+//            }
+//        }
 
         pw.println(" <!DOCTYPE html>");
         pw.println(" <html>");
@@ -72,7 +67,7 @@ public class ConfereLoginSenha extends HttpServlet {
         pw.println("<table>");
         pw.println("<tr>");
         pw.println("<td>Nome:</td>");
-        pw.println("<td><input type= 'text' name='txtnome'></td>");
+        pw.println("<td><input type= 'text' name='txtnome'>"+ nome +"</td>");
         pw.println("</tr>");
         pw.println("<tr>");
         pw.println("<td>Senha:</td>");
