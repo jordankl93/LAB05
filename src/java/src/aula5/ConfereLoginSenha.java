@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,10 +27,9 @@ public class ConfereLoginSenha extends HttpServlet {
         String nome = request.getParameter("txtnome");
         String senha = request.getParameter("txtsenha");
         if (nome == null && senha == null) {
-            MontaFormNull(response);            
-        }
-        else{
-            if ((nome.equals("user")) && (senha.equals("123"))) {
+            MontaFormNull(response);
+        } else {
+            if ((senha.equals("123"))) {
                 /*crie a funo*/
                 MontaValido(request, response);
             } else {
@@ -39,6 +39,19 @@ public class ConfereLoginSenha extends HttpServlet {
         }
         // Montando o formulrio
         MontaForm(response);
+
+        //A resposta à requisição é uma página HTML escrita no dispositivo de saída
+        response.setContentType("text/html");
+        PrintWriter pw = response.getWriter();
+        //obtém todos os cookies armazenado no computador cliente
+        Cookie[] cookie = request.getCookies();
+        pw.println("lendo todos os cookies do browser");
+        for (Cookie obj : cookie) {
+            if (obj.getName().equals("url")) {
+                pw.println(obj.getName() + " : " + obj.getValue());
+                break;
+            }
+        }
     }
 
     private void MontaForm(HttpServletResponse response) throws IOException {
@@ -54,7 +67,7 @@ public class ConfereLoginSenha extends HttpServlet {
         pw.println(" <body>");
         pw.println(" <center>");
         pw.println("<h1>Seja bem-vindo ao nosso Webmail</h1>");
-        pw.println("<form method='post'>");
+        pw.println("<form action=\"GerarCookie\" method='post'>");
         pw.println("<div class='frm'>");
         pw.println("<table>");
         pw.println("<tr>");
@@ -76,11 +89,10 @@ public class ConfereLoginSenha extends HttpServlet {
         pw.println("</body>");
         pw.println("</html>");
     }
-    
+
     private void MontaFormNull(HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
         PrintWriter pw = response.getWriter();
-        
 
         pw.println("<!DOCTYPE html>");
         pw.println("<html>");
@@ -93,11 +105,10 @@ public class ConfereLoginSenha extends HttpServlet {
         pw.println("</body>");
         pw.println("</html>");
     }
-    
+
     private void MontaFormInvalidos(HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
         PrintWriter pw = response.getWriter();
-        
 
         pw.println("<!DOCTYPE html>");
         pw.println("<html>");
@@ -110,12 +121,11 @@ public class ConfereLoginSenha extends HttpServlet {
         pw.println("</body>");
         pw.println("</html>");
     }
-    
+
     private void MontaValido(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
         String nome = request.getParameter("txtnome");
         PrintWriter pw = response.getWriter();
-        
 
         pw.println(" <!DOCTYPE html>");
         pw.println("<html>");
