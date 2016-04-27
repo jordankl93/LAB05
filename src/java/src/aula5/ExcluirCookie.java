@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author 20112BSI0016
  */
-@WebServlet(name = "GerarCookie", urlPatterns = {"/GerarCookie"})
-public class GerarCookie extends HttpServlet {
+@WebServlet(name = "ExcluirCookie", urlPatterns = {"/ExcluirCookie"})
+public class ExcluirCookie extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
@@ -27,9 +27,9 @@ public class GerarCookie extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter pw = response.getWriter();
         Cookie cookieURL = new Cookie("url", request.getParameter("txtnome")); //configura cookie
-        cookieURL.setMaxAge(60); //1 minutos
-        response.addCookie(cookieURL); //cria um cokie
-        pw.println("Cookie criado.");
+        cookieURL.setMaxAge(0); //Deletando cookie
+        response.addCookie(cookieURL);
+        response.sendRedirect("http://localhost:8084/exercicio5/ConfereLoginSenha");
     }
 
 }

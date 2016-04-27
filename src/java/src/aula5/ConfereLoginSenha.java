@@ -26,48 +26,50 @@ public class ConfereLoginSenha extends HttpServlet {
             ServletException, IOException {
         String nome = request.getParameter("txtnome");
         String senha = request.getParameter("txtsenha");
-        if (nome == null && senha == null) {
-            MontaFormNull(response);
-        } else {
+        if (nome != null && senha != null) {
             if ((senha.equals("123"))) {
-                /*crie a funo*/
                 MontaValido(request, response);
             } else {
-                /*crie a fuo*/
                 MontaFormInvalidos(response);
-            }
-        }
-        // Montando o formulrio
-        MontaForm(request, response);        
+                MontaForm(request, response);
+            }            
+        } else {
+            MontaFormNull(response);
+            // Montando o formulrio
+            MontaForm(request, response);
+        }        
     }
 
     private void MontaForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
         PrintWriter pw = response.getWriter();
         String nome = "";
+        
         //obtém todos os cookies armazenado no computador cliente
-//        Cookie[] cookie = request.getCookies();
-//        for (Cookie obj : cookie) {
-//            if (obj.getName().equals("url")) {
-//                nome = obj.getValue();
-//            }
-//        }
+        Cookie[] cookie = request.getCookies();
+        if(cookie != null){
+            for (Cookie obj : cookie) {
+                if (obj.getName().equals("url")) {
+                    nome = obj.getValue();
+                }
+            }
+        }
 
-        pw.println(" <!DOCTYPE html>");
-        pw.println(" <html>");
-        pw.println(" <head>");
-        pw.println(" <meta charset='ISO-8859-1'>");
-        pw.println(" <title>Webmail</title>");
-        pw.println(" </head>");
-        pw.println(" <body>");
-        pw.println(" <center>");
+        pw.println("<!DOCTYPE html>");
+        pw.println("<html>");
+        pw.println("<head>");
+        pw.println("<meta charset='ISO-8859-1'>");
+        pw.println("<title>Webmail</title>");
+        pw.println("</head>");
+        pw.println("<body>");
+        pw.println("<center>");
         pw.println("<h1>Seja bem-vindo ao nosso Webmail</h1>");
-        pw.println("<form action=\"GerarCookie\" method='post'>");
+        pw.println("<form method='post'>");
         pw.println("<div class='frm'>");
         pw.println("<table>");
         pw.println("<tr>");
-        pw.println("<td>Nome:</td>");
-        pw.println("<td><input type= 'text' name='txtnome'>"+ nome +"</td>");
+        pw.println("<td>Nome:</td>");        
+        pw.println("<td><input type= 'text' name='txtnome' value='"+ nome +"'></td>");
         pw.println("</tr>");
         pw.println("<tr>");
         pw.println("<td>Senha:</td>");
@@ -130,6 +132,15 @@ public class ConfereLoginSenha extends HttpServlet {
         pw.println("</head>");
         pw.println("<body>");
         pw.println("<h1>Olá, " + nome + ". Seja bem-vindo ao nosso Webmail! </h1>");
+        
+        Cookie cookieURL = new Cookie("url", nome); //configura cookie
+        cookieURL.setMaxAge(60); //1 minutos
+        response.addCookie(cookieURL); //cria um cokie
+        pw.println("<h3>Cookie criado.</h3>");
+        
+        //Botão para voltar
+        pw.println("<FORM action='ExcluirCookie'><INPUT Type=\"submit\" VALUE=\"LogOff\"></FORM>");
+           
         pw.println("</body>");
         pw.println("</html>");
     }
