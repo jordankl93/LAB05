@@ -57,6 +57,37 @@ public class Enviardados extends HttpServlet {
                 out.println("<h1>Gravado com sucesso!</h1>");
                 out.println("</body>");
                 out.println("</html>");
+            } else {
+                pd = new PessoaDao();
+
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>Gravado</title>");
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<h1>Consulta de Pessoas</h1>");
+                out.println("<table border='1'>");
+                out.println("<thead>");
+                out.println("<tr>");
+                out.println("<th>Nome</th>");
+                out.println("<th>Email</th>");
+                out.println("<th>Idade</th>");
+                out.println("</tr>");
+                out.println("</thead>");
+                out.println("<tbody>");
+                
+                for (Pessoa pessoa : pd.buscarTodos()) {
+                    out.println("<tr>");
+                    out.println("<td>" + pessoa.getNome() + "</td>");
+                    out.println("<td>" + pessoa.getEmail() + "</td>");
+                    out.println("<td>" + pessoa.getIdade() + "</td>");
+                    out.println("</tr>");
+                }
+                
+                out.println("</tbody>");
+                out.println("</table>");
+                out.println("</body>");
+                out.println("</html>");
             }
 
         } catch (Exception e) {

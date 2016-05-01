@@ -5,6 +5,10 @@
  */
 package src.persistence;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import src.model.Pessoa;
 
 /**
@@ -25,5 +29,25 @@ public class PessoaDao extends Dao {
         stmt.execute();
         close();
     }
-    
+
+    public List<Pessoa> buscarTodos() throws Exception {
+        List<Pessoa> resultados = new ArrayList<>();
+        
+        open();
+        try {
+            stmt = con.prepareStatement("SELECT * FROM pessoa");
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Pessoa temp = new Pessoa(rs.getString("nome"), rs.getString("email"), rs.getInt("idade"));
+                resultados.add(temp);
+            }
+            close();
+            return resultados;
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar pessoa: \n" + e.getMessage());
+            close();
+            return null;
+        }
+
+    }
 }
