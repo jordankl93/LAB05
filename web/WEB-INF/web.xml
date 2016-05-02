@@ -4,9 +4,17 @@
         <servlet-name>Enviardados</servlet-name>
         <servlet-class>src.control.Enviardados</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ArquivoTextoServlet</servlet-name>
+        <servlet-class>src.lab5.exercicio08.ArquivoTextoServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Enviardados</servlet-name>
         <url-pattern>/Enviardados</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ArquivoTextoServlet</servlet-name>
+        <url-pattern>/ArquivoTextoServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
